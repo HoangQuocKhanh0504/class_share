@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hướng dẫn làm bài</title>
+  <link rel="icon" href="GD.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #f3f4f6; }
+    .carousel-container {
+      position: relative;
+      max-width: 900px;
+      width: 100%;
+      margin: auto;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .carousel-slide {
+      display: none;
+      text-align: center;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      max-height: 600px;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      cursor: zoom-in;
+    }
+    .caption {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 0.25rem;
+      font-weight: bold;
+      user-select: none;
+      z-index: 10;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    /* Zoom modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 50;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 0.5rem;
+    }
+    .link{
+        color: red;
+    }
+  </style>
+  <div id="notification-bar" style="
+    width: 100%;
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 2px solid #cc9900;
+    box-sizing: border-box;
+    position: fixed;     /* Dính cố định */
+    top: 0;              /* Nằm sát mép trên */
+    left: 0;             /* Trải từ trái */
+    z-index: 9999;       /* Luôn nổi trên các phần tử khác */
+">
+  <div id="scrolling-wrapper" style="
+      display: inline-block;
+      white-space: nowrap;
+      will-change: transform;
+      animation: scroll-infinite 30s linear infinite;
+  ">
+    <span style="padding-right: 50px;">
+      Hiện tại web chỉ mới đang phát triển nên sẽ có 1 số lỗi không mong muốn. Đôi khi css của web sẽ bị mất. Nếu các bạn muốn làm web thì có thể liên hệ mình qua website: 
+      <a href="https://aikhanh.onrender.com" target="_blank" style="color: #000; text-decoration: underline;">https://aikhanh.onrender.com</a>
+      © KHANHPC 2025 | mọi quyền được bảo lưu
+    </span>
+    <span style="padding-right: 50px;">
+      Hiện tại web chỉ mới đang phát triển nên sẽ có 1 số lỗi không mong muốn. Đôi khi css của web sẽ bị mất. Nếu các bạn muốn làm web thì có thể liên hệ mình qua website: 
+      <a href="https://aikhanh.onrender.com" target="_blank" style="color: #000; text-decoration: underline;">https://aikhanh.onrender.com</a>
+      © KHANHPC 2025 | mọi quyền được bảo lưu
+    </span>
+  </div>
+</div>
+
+<style>
+@keyframes scroll-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+/* Đẩy nội dung web xuống một chút để không bị che */
+body {
+  margin-top: 40px;
+}
+</style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md">
+    <div class="flex items-center gap-2">
+      <img src="GD.png" alt="icon" class="w-8 h-8">
+      <h1 class="text-xl font-bold">Hướng dẫn làm bài</h1>
+    </div>
+    <nav>
+      <a href="index.html" class="hover:underline text-white">← Trang chủ</a>
+    </nav>
+  </header>
+
+  <main class="p-6 flex flex-col items-center space-y-6">
+
+    <!-- Carousel 30 ảnh -->
+    <div class="carousel-container">
+      <!-- Slides -->
+      <!-- 30 ảnh -->
+      <div class="carousel-slide">
+        <img src="images/1.png" alt="Bước 1">
+        <div class="caption">Bước 1 : tìm kiếm tên của bạn</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/2.png" alt="Bước 2">
+        <div class="caption">Bước 2 : bấm nút tải</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/3.png" alt="Bước 3">
+        <div class="caption">Bước 3 : mở file vừa tải lên</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/4.png" alt="Bước 4">
+        <div class="caption">Bước 4 : bấm ctrl+a rồi bấm ctrl+v để coppy</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/5.png" alt="Bước 5">
+        <div class="caption">Bước 5 : mở thư mục xampp</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/6.png" alt="Bước 6">
+        <div class="caption">Bước 6 : kéo xuống dưới và chạy file tên là xampp-control.exe</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/7.png" alt="Bước 7">
+        <div class="caption">Bước 7 : sau khi chạy thì start 2 ô này lên nếu lỗi gặp khánh fix</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/8.png" alt="Bước 8">
+        <div class="caption">Bước 8 : kéo lên trên và mở thư mục tên là htdocs</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/9.png" alt="Bước 9">
+        <div class="caption">Bước 9 : tạo 1 thư mục mới lên gì cũng được</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/10.png" alt="Bước 10">
+        <div class="caption">Bước 10 : sau khi tạo thì mở thư mục đó lên</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/11.png" alt="Bước 11">
+        <div class="caption">Bước 11 : bấm ctrl+v để dán các file đã coppy ở bước 4</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/12.png" alt="Bước 12">
+        <div class="caption">Bước 12 : mở xampp mới mở lên và bấm vào admin</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/13.png" alt="Bước 13">
+        <div class="caption">Bước 13 : sau khi web được mở thì bấm vào SQL</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/14.png" alt="Bước 14">
+        <div class="caption">Bước 14 : vào thư mục tạo trong htdocs chạy file code.txt</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/15.png" alt="Bước 15">
+        <div class="caption">Bước 15 : coppy toàn bộ code</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/16.png" alt="Bước 16">
+        <div class="caption">Bước 16 : truy cập <a class="link" href="http://localhost/phpmyadmin/index.php?route=/server/sql" target="_blank">link </a> và dán toàn bộ code đã coppy vào và bấm go hoặc thực hiện</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/17.png" alt="Bước 17">
+        <div class="caption">Bước 17 : hiện như thế này là thành công 50%</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="images/18.png" alt="Bước 18">
+        <div class="caption">Bước 18 : truy cập : "http://localhost/xxx" thay xxx thành tên thư mục bạn tạo trong htdocs</div>
+      </div>
+
+
+      <!-- Mũi tên -->
+      <div class="prev" onclick="changeSlide(-1)">&#10094;</div>
+      <div class="next" onclick="changeSlide(1)">&#10095;</div>
+    </div>
+
+    <!-- Video cuối -->
+    <section class="bg-white p-4 rounded shadow-md w-full max-w-3xl mt-6">
+      <h2 class="text-lg font-semibold mb-2">Video hướng dẫn</h2>
+      <video controls class="w-full rounded shadow-md">
+        <source src="huongdan.mp4" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ video.
+      </video>
+      <p class="mt-2 text-gray-600 italic">Chú thích: có thể xem video sau.</p>
+    </section>
+
+  </main>
+
+  <!-- Zoom modal -->
+  <div id="zoomModal" class="modal" onclick="closeZoom()">
+    <img id="zoomImg" src="">
+  </div>
+
+  <script>
+    // Carousel
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".carousel-slide");
+
+    function showSlide(index) {
+      if(index >= slides.length) currentSlide = 0;
+      else if(index < 0) currentSlide = slides.length - 1;
+      else currentSlide = index;
+      slides.forEach((s,i)=> s.style.display = i === currentSlide ? "block" : "none");
+    }
+
+    function changeSlide(n) { showSlide(currentSlide + n); }
+    showSlide(currentSlide);
+
+    // Zoom ảnh
+    const zoomModal = document.getElementById("zoomModal");
+    const zoomImg = document.getElementById("zoomImg");
+
+    slides.forEach(slide => {
+      const img = slide.querySelector("img");
+      img.addEventListener("click", () => {
+        zoomImg.src = img.src;
+        zoomModal.style.display = "flex";
+      });
+    });
+
+    function closeZoom() {
+      zoomModal.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

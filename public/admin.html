@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang Admin</title>
+  <link rel="icon" href="GD.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<div id="notification-bar" style="
+    width: 100%;
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 2px solid #cc9900;
+    box-sizing: border-box;
+    position: fixed;     /* Dính cố định */
+    top: 0;              /* Nằm sát mép trên */
+    left: 0;             /* Trải từ trái */
+    z-index: 9999;       /* Luôn nổi trên các phần tử khác */
+">
+  <div id="scrolling-wrapper" style="
+      display: inline-block;
+      white-space: nowrap;
+      will-change: transform;
+      animation: scroll-infinite 30s linear infinite;
+  ">
+    <span style="padding-right: 50px;">
+      Hiện tại web chỉ mới đang phát triển nên sẽ có 1 số lỗi không mong muốn. Đôi khi css của web sẽ bị mất. Nếu các bạn muốn làm web thì có thể liên hệ mình qua website: 
+      <a href="https://aikhanh.onrender.com" target="_blank" style="color: #000; text-decoration: underline;">https://aikhanh.onrender.com</a>
+      © KHANHPC 2025 | mọi quyền được bảo lưu
+    </span>
+    <span style="padding-right: 50px;">
+      Hiện tại web chỉ mới đang phát triển nên sẽ có 1 số lỗi không mong muốn. Đôi khi css của web sẽ bị mất. Nếu các bạn muốn làm web thì có thể liên hệ mình qua website: 
+      <a href="https://aikhanh.onrender.com" target="_blank" style="color: #000; text-decoration: underline;">https://aikhanh.onrender.com</a>
+      © KHANHPC 2025 | mọi quyền được bảo lưu
+    </span>
+  </div>
+</div>
+
+<style>
+@keyframes scroll-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+/* Đẩy nội dung web xuống một chút để không bị che */
+body {
+  margin-top: 40px;
+}
+</style>
+<body class="bg-gray-100">
+
+  <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+    <img src="GD.png" alt="icon" class="w-8 h-8">
+    <h1 class="text-xl font-bold">Quản lý nộp bài</h1>
+    <a href="index.html" class="hover:underline">← Về trang chủ</a>
+  </header>
+
+  <main class="p-6 space-y-6">
+
+    <!-- Nhập mật khẩu -->
+    <div class="bg-white p-4 rounded shadow">
+      <h2 class="text-lg font-semibold mb-2">Đăng nhập Admin</h2>
+      <input id="password" type="password" placeholder="Nhập mật khẩu..." 
+        class="border p-2 rounded w-64">
+      <button onclick="checkPass()" class="bg-blue-600 text-white px-4 py-2 rounded ml-2">Đăng nhập</button>
+      <p id="msg" class="text-red-600 mt-2"></p>
+    </div>
+
+    <!-- Upload danh sách -->
+    <div id="upload-area" class="hidden space-y-4">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Tải danh sách học sinh (Excel)</h2>
+        <input type="file" id="listFile" accept=".xlsx,.xls,.csv" class="mb-2">
+        <button onclick="uploadList()" class="bg-green-600 text-white px-4 py-2 rounded">Tải lên</button>
+      </div>
+
+      <!-- Upload project -->
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Tải project gốc (ZIP)</h2>
+        <input type="file" id="projectFile" accept=".zip" class="mb-2">
+        <button onclick="uploadProject()" class="bg-purple-600 text-white px-4 py-2 rounded">Tải lên</button>
+
+        <!-- Thanh tiến trình -->
+        <div id="progress" class="w-full bg-gray-300 rounded h-4 mt-4 hidden">
+          <div id="progress-bar" class="bg-purple-600 h-4 rounded w-0"></div>
+        </div>
+        <p id="status" class="mt-2 text-gray-700"></p>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const ADMIN_PASS = "khanhpc";
+
+    function checkPass() {
+      const pass = document.getElementById("password").value;
+      if (pass === ADMIN_PASS) {
+        document.getElementById("upload-area").classList.remove("hidden");
+        document.getElementById("msg").innerText = "";
+      } else {
+        document.getElementById("msg").innerText = "❌ Sai mật khẩu!";
+      }
+    }
+
+    async function uploadList() {
+      const file = document.getElementById("listFile").files[0];
+      if (!file) return alert("Chưa chọn file!");
+      const formData = new FormData();
+      formData.append("file", file);
+
+      let res = await fetch("/upload-list", { method: "POST", body: formData });
+      let data = await res.json();
+      if (data.success) {
+        alert("✅ Danh sách đã được tải lên!");
+      }
+    }
+
+    function uploadProject() {
+      const file = document.getElementById("projectFile").files[0];
+      if (!file) return alert("Chưa chọn file!");
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/upload-project", true);
+
+      // Hiện thanh tiến trình
+      document.getElementById("progress").classList.remove("hidden");
+
+      xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+          let percent = Math.round((e.loaded / e.total) * 100);
+          document.getElementById("progress-bar").style.width = percent + "%";
+          document.getElementById("status").innerText = `Đang tải: ${percent}%`;
+        }
+      };
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          let res = JSON.parse(xhr.responseText);
+          if (res.success) {
+            document.getElementById("status").innerText = "✅ Upload thành công!";
+            setTimeout(() => {
+              window.location.href = "index.html"; // quay về trang chủ để xem danh sách
+            }, 1500);
+          } else {
+            document.getElementById("status").innerText = "❌ Lỗi khi xử lý!";
+          }
+        }
+      };
+
+      xhr.send(formData);
+    }
+  </script>
+
+</body>
+</html>

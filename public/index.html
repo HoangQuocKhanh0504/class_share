@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách nộp bài</title>
+    <link rel="icon" href="GD.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<div id="notification-bar" style="
+    width: 100%;
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 2px solid #cc9900;
+    box-sizing: border-box;
+    position: fixed;     /* Dính cố định */
+    top: 0;              /* Nằm sát mép trên */
+    left: 0;             /* Trải từ trái */
+    z-index: 9999;       /* Luôn nổi trên các phần tử khác */
+">
+  <div id="scrolling-wrapper" style="
+      display: inline-block;
+      white-space: nowrap;
+      will-change: transform;
+      animation: scroll-infinite 30s linear infinite;
+  ">
+    <span style="padding-right: 50px;">
+      Hiện tại web chỉ mới đang phát triển nên sẽ có 1 số lỗi không mong muốn. Đôi khi css của web sẽ bị mất. Nếu các bạn muốn làm web thì có thể liên hệ mình qua website: 
+      <a href="https://aikhanh.onrender.com" target="_blank" style="color: #000; text-decoration: underline;">https://aikhanh.onrender.com</a>
+      © KHANHPC 2025 | mọi quyền được bảo lưu
+    </span>
+    <span style="padding-right: 50px;">
+      Hiện tại web chỉ mới đang phát triển nên sẽ có 1 số lỗi không mong muốn. Đôi khi css của web sẽ bị mất. Nếu các bạn muốn làm web thì có thể liên hệ mình qua website: 
+      <a href="https://aikhanh.onrender.com" target="_blank" style="color: #000; text-decoration: underline;">https://aikhanh.onrender.com</a>
+      © KHANHPC 2025 | mọi quyền được bảo lưu
+    </span>
+  </div>
+</div>
+
+<style>
+@keyframes scroll-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+/* Đẩy nội dung web xuống một chút để không bị che */
+body {
+  margin-top: 40px;
+}
+</style>
+<body class="bg-gray-100">
+  <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md">
+    <div class="flex items-center gap-2">
+      <img src="GD.png" alt="icon" class="w-8 h-8">
+      <h1 class="text-xl font-bold">Trang nộp bài</h1>
+    </div>
+    <nav class="space-x-4">
+      <a href="admin.html" class="hover:underline">Nộp đáp án (Admin)</a>
+      <a href="#" class="hover:underline">Các trang web khác</a>
+      <a href="huongdan.html" class="hover:underline">Xem cách làm bài</a>
+    </nav>
+  </header>
+
+  <main class="p-6">
+    <div class="mb-4">
+      <input id="search" type="text" placeholder="Tìm tên..." class="p-2 border rounded w-1/3">
+    </div>
+    <p class="text-red-600 mb-2">⚠ Vui lòng chọn đúng tên để tránh nộp sai bài</p>
+    <div id="progress" class="w-full bg-gray-300 rounded h-4 mb-4 hidden">
+      <div id="progress-bar" class="bg-blue-600 h-4 rounded w-0"></div>
+    </div>
+    <table class="table-auto w-full bg-white shadow-md rounded">
+      <thead class="bg-blue-500 text-white">
+        <tr>
+          <th class="p-2">STT</th>
+          <th class="p-2">Họ tên</th>
+          <th class="p-2">Tên file</th>
+          <th class="p-2">Kích thước</th>
+          <th class="p-2">Link tải</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+  </main>
+
+  <script>
+    async function loadList() {
+      document.getElementById("progress").classList.remove("hidden");
+      const res = await fetch("/list");
+      const data = await res.json();
+      let html = "";
+      data.forEach(row => {
+        html += `<tr class="border">
+          <td class="p-2">${row.stt}</td>
+          <td class="p-2">${row.hoten}</td>
+          <td class="p-2">${row.file || ""}</td>
+          <td class="p-2">${row.size || ""}</td>
+          <td class="p-2">${row.link ? `<a href="${row.link}" class="text-blue-600 underline">Tải</a>` : ""}</td>
+        </tr>`;
+      });
+      document.getElementById("list").innerHTML = html;
+      // fake progress
+      let bar = document.getElementById("progress-bar");
+      let w = 0;
+      let interval = setInterval(() => {
+        if (w >= 100) {clearInterval(interval); document.getElementById("progress").classList.add("hidden");}
+        else {w += 5; bar.style.width = w + "%";}
+      }, 100);
+    }
+    loadList();
+
+    document.getElementById("search").addEventListener("input", e => {
+      const val = e.target.value.toLowerCase();
+      document.querySelectorAll("#list tr").forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(val) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
